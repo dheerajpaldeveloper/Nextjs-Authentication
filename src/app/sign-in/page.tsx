@@ -17,13 +17,29 @@ export default function SignInPage() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   
+  const validateEmail = (email: string) => {
+    if (email === "") {
+      setEmailError("Please enter email!");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    if (password === "") {
+      setPasswordError("Please enter password!");
+    } else {
+      setPasswordError("");
+    }
+  };
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === "" || password === ""  ) {
-      setEmailError("Please enter email and password!");
-      setPasswordError("Please enter email and password!");
-    }else{
-      console.log("email : ",email, "password : ", password);
+    validateEmail(email);
+    validatePassword(password);
+    
+    if (email !== "" && password !== "") {
+      console.log("test email : ", email);
     }
   };
 
@@ -56,7 +72,10 @@ export default function SignInPage() {
                 type="email" 
                 placeholder="Email" 
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validateEmail(e.target.value);
+                }}
                 className="w-full pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
               />
             </div>
@@ -71,7 +90,10 @@ export default function SignInPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password" 
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  validatePassword(e.target.value);
+                }}
                 className="w-full pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
               />
               <button type="button" onClick={() => setShowPassword(!showPassword)}>
